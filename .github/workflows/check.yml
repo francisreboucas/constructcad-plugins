@@ -1,0 +1,41 @@
+name: Check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    # Weekly: every archive is still there and unchanged.
+    - cron: "17 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Tests of the checker
+        run: python -m unittest discover -s tests
+      - name: Entries
+        run: python scripts/index.py check
+      - name: Archives of the changed entries
+        if: github.event_name == 'pull_request'
+        run: |
+          ids=$(git diff --name-only --diff-filter=AM "origin/${{ github.base_ref }}...HEAD" -- 'plugins/*.toml' \
+                | xargs -r -n1 basename | sed 's/\.toml$//')
+          if [ -n "$ids" ]; then
+            python scripts/index.py check --download --only $ids
+          else
+            echo "No plugin entry changed."
+          fi
+      - name: Every archive
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: python scripts/index.py check --download
