@@ -1,4 +1,32 @@
 {
   "format": 1,
-  "plugins": []
+  "plugins": [
+    {
+      "id": "quick_rooms",
+      "name": "Quick rooms",
+      "description": "Rectangular rooms in one step (four walls, floor, room and an optional door), and wall totals by type. An example plugin.",
+      "authors": [
+        "ConstructCAD contributors"
+      ],
+      "license": "GPL-3.0-or-later",
+      "homepage": "https://github.com/francisreboucas/constructcad/tree/main/examples/plugins/quick_rooms",
+      "repository": "https://github.com/francisreboucas/constructcad",
+      "tags": [
+        "example",
+        "architecture",
+        "rooms"
+      ],
+      "versions": [
+        {
+          "permissions": [],
+          "version": "0.1.0",
+          "api": 1,
+          "url": "https://github.com/francisreboucas/constructcad-plugins/releases/download/quick_rooms-v0.1.0/quick_rooms.zip",
+          "sha256": "7c5bca74595c6b87dcfd072c4d1629a807013cfd48126054219c1101f0224a79",
+          "min_app": "0.10.0",
+          "notes": "First release."
+        }
+      ]
+    }
+  ]
 }
